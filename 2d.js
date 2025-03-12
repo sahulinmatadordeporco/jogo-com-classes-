@@ -11,10 +11,13 @@ class Entidade {
 }
 
 class Personagem extends Entidade {
-    constructor(x, y, largura, altura, velocidadeY, forcaPulo) {
+    #velocidadeY;
+    #pulando;
+
+    constructor(x, y, largura, altura, forcaPulo) {
         super(x, y, largura, altura);
-        this.velocidadeY = velocidadeY;
-        this.pulando = false;
+        this.#velocidadeY = 0;
+        this.#pulando = false;
         this.forcaPulo = forcaPulo;
         this.chao = canvas.height - altura;
     }
@@ -23,20 +26,31 @@ class Personagem extends Entidade {
         return 0.8;
     }
 
+    get pulando() {
+        return this.#pulando;
+    }
+
     desenhar() {
-        ctx.fillStyle = cor
+        ctx.fillStyle = "white"; 
         ctx.fillRect(this.x, this.y, this.largura, this.altura);
     }
 
     atualizar() {
-        if (this.pulando) {
-            this.velocidadeY += this.gravidade;
-            this.y += this.velocidadeY;
+        if (this.#pulando) {
+            this.#velocidadeY += this.gravidade;
+            this.y += this.#velocidadeY;
             if (this.y >= this.chao) {
                 this.y = this.chao;
-                this.velocidadeY = 0;
-                this.pulando = false;
+                this.#velocidadeY = 0;
+                this.#pulando = false;
             }
+        }
+    }
+
+    saltar() {
+        if (!this.#pulando) {
+            this.#pulando = true;
+            this.#velocidadeY = -this.forcaPulo;
         }
     }
 }
@@ -65,16 +79,15 @@ class Obstaculo extends Entidade {
     }
 }
 
-let personagem = new Personagem(30, 130, 20, 20, 0, 14);
-let obstaculo = new Obstaculo(canvas.width - 20, canvas.height - 70, 20, 70, 3);
+const personagem = new Personagem(30, 130, 20, 20, 14);
+const obstaculo = new Obstaculo(canvas.width - 20, canvas.height - 70, 20, 70, 3);
 
 let gameOver = false;
 let contadorObstaculos = 0;
 
 document.addEventListener("keydown", function(event) {
     if (event.code === "Space" && !personagem.pulando && !gameOver) {
-        personagem.pulando = true;
-        personagem.velocidadeY = -personagem.forcaPulo;
+        personagem.saltar();
     }
 });
 
@@ -112,8 +125,13 @@ function mostrarBotaoReiniciar() {
 }
 
 function reiniciarJogo() {
-    personagem = new Personagem(30, 130, 20, 20, 0, 14);
-    obstaculo = new Obstaculo(canvas.width - 20, canvas.height - 70, 20, 70, 3);
+    personagem.x = 30;
+    personagem.y = 130;
+    personagem.velocidadeY = 0;
+    personagem.pulando = false;
+    obstaculo.x = canvas.width - 20;
+    obstaculo.y = canvas.height - 70;
+    obstaculo.velocidadeX = 3;
     contadorObstaculos = 0;
     gameOver = false;
     document.querySelector("#botaoReiniciar").remove();
