@@ -1,0 +1,36 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box; 
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #c9bfa3; 
+}
+
+canvas {
+    margin-top: 100px;
+    background-color: #48bac9;
+    border: 3px solid #ffcc00; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+}
+
+#botaoReiniciar {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 12px 24px; 
+    font-size: 20px; 
+    background-color: #ffcc00; 
+    color: white; 
+    border: none;
+    border-radius: 10px; 
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    transition: background-color 0.3s, transform 0.3s; 
+}
