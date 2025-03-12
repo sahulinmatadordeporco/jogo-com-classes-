@@ -24,6 +24,7 @@ class Personagem extends Entidade {
     }
 
     desenhar() {
+        ctx.fillStyle = cor
         ctx.fillRect(this.x, this.y, this.largura, this.altura);
     }
 
